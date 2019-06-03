@@ -1,0 +1,16 @@
+﻿
+<body>
+    <input type="text" name="Mail"class="form-control" value=@ViewBag.RepeatUser required="required" data-autocomplete-source='@Url.Action("AutocompleteSearch", "Home")' />
+
+    <script src='@Url.Content("~/Scripts/jquery-3.3.1.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery-3.3.1.min.js")' type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("[data-autocomplete-source]").each(function () {
+                var target = $(this);
+                target.autocomplete({ source: target.attr("data-autocomplete-source") });
+            });
+        });
+    </script>
+</body>

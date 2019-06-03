@@ -1,0 +1,53 @@
+﻿
+<body>
+
+
+    <div>
+        <h5>Здравствуйте, <span>@ViewBag.CurrentUser.Name</span>!</h5>
+        <h5>У Вас на счету <span style="color:forestgreen"> @ViewBag.Balance </span>  денег. </h5>
+        <hr />
+        <h5>@Html.ActionLink("Новый перевод", "Transaction", "Home")</h5>
+        <hr />
+        <h4>Список последних операций</h4>
+
+        <table>
+            <tr class="transactTable" style=" text-align:center; ">
+                <td>@Html.ActionLink("Дата", "SortMethod", "Home", new { sortId = 1 }, null)</td>
+                <td>@Html.ActionLink("Сумма перевода", "SortMethod", "Home", new { sortId = 2 }, null)</td>
+                <td>Тип платежа</td>
+                <td>@Html.ActionLink("Адресат", "SortMethod", "Home", new { sortId = 3 }, null)</td>
+                <td></td>
+            </tr>
+            @foreach (var item in ViewBag.Transactions)
+            {
+                <tr class="transactTable">
+                    <td>@item.Date</td>
+                    <td style=" text-align:right;">@item.Sum</td>
+
+                    @if (item.SenderId == (int)ViewBag.CurrentUser.Id)
+                    {
+                        <td style="color:orangered; text-align:center">Платеж</td>
+                        <td>@((@ViewBag.OtherUsers as ParrotWingsWebApp.Models.User[]).FirstOrDefault(u => u.Id == item.ReceiverId).Name) <span>      @((@ViewBag.OtherUsers as ParrotWingsWebApp.Models.User[]).FirstOrDefault(u => u.Id == item.ReceiverId).EMail)</span></td>
+                        <td>@Html.ActionLink("Повторить операцию", "Repeat", "Home", new { id = item.Id }, null)</td>
+
+                    }
+                    else
+                    {
+                        <td style="color:forestgreen; text-align:center">Поступление</td>
+                        <td>@((@ViewBag.OtherUsers as ParrotWingsWebApp.Models.User[]).FirstOrDefault(u => u.Id == item.SenderId).Name) <span>      @((@ViewBag.OtherUsers as ParrotWingsWebApp.Models.User[]).FirstOrDefault(u => u.Id == item.SenderId).EMail)</span></td>
+                        <td></td>
+                    }
+                </tr>
+
+            }
+        </table>
+        <hr />
+        <h5>@Html.ActionLink("Сменить пароль", "ChangePass", "Account")</h5>
+       
+
+
+
+
+    </div>
+</body>
+
